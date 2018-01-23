@@ -10,7 +10,7 @@
    Copyright 2017 Abel 'Akronix' Serrano Juste <akronix5@gmail.com>
 """
 
-from .metrics import available_metrics as _available_metrics
+from .metrics import available_metrics as _available_metrics, metric_category_names as _metric_categories
 from .metrics import metrics_dict
 from .metrics import stats
 
@@ -18,6 +18,16 @@ from .metrics import stats
 def get_available_metrics():
    """ Return a list of the currently available metrics. """
    return _available_metrics
+
+def get_metric_categories():
+    """
+      Return a list containing all the possible metric categories
+
+      Note that a metric belongs to one and only one category
+    """
+    return _metric_categories
+
+
 
 def compute_metrics_on_dataframe(metrics, df):
    """

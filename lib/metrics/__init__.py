@@ -10,8 +10,9 @@
    Copyright 2017 Abel 'Akronix' Serrano Juste <akronix5@gmail.com>
 """
 
-from .metrics_generator import generate_metrics, generate_dict_metrics
+from .metrics_generator import generate_metrics, generate_dict_metrics, generate_metric_category_names
 
 print('Generating available metrics...')
 available_metrics = generate_metrics()
 metrics_dict = generate_dict_metrics(available_metrics)
+metric_category_names = generate_metric_category_names()

@@ -56,10 +56,14 @@ def generate_dict_metrics(list_of_metrics):
 
     return metrics
 
+def generate_metric_category_names():
+    return [ name for name, member in MetricCategory.__members__.items() ]
+
 
 def main():
     print (generate_metrics())
-    return
+    print (generate_metric_category_names())
+    return 0
 
 if __name__ == '__main__':
     main()

@@ -13,5 +13,7 @@ function hideSideBar() {
 
 
     // hide side bar
-    document.getElementById('side-bar').style.display = 'none';
+    var side_bar = document.getElementById('side-bar-content')
+    if (side_bar.style.display == 'none') side_bar.style.display = 'block';
+    else side_bar.style.display = 'none';
 }

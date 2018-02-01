@@ -44,7 +44,7 @@ def fold_button():
                 'marginTop': '30px',
                 'marginBottom': '30px'
             },
-            #~ children=[html.Img(id='fold-img', src='assets/fold_arrow.svg')],
+            children=[html.Img(id='fold-img', src='assets/fold_arrow.svg')],
         ),
         id='fold-container',
         style={
@@ -192,45 +192,47 @@ def selection_result_container():
         return html.Div(id='sidebar-selection', style={'display': 'none'})
 
 def generate_side_bar(wikis, metrics):
-    return html.Div(id='side-bar',
-        children=[
-            fold_button(),
-            #~ html.Div(style={'backgroundColor': '#072146', 'height': '15px'}),
-            gdc.Tabs(
-                tabs=[
-                    {'value': 'wikis', 'label': 'WIKIS'},
-                    {'value': 'metrics', 'label': 'METRICS'}
-                ],
-                value='wikis',
-                id='side-bar-tabs',
-                vertical=False,
-                selectedTabStyle={
-                    'backgroundColor': '#004481',
-                },
-                style={
-                    'width': '100%',
-                    'textAlign': 'center',
-                    'border': 'none',
-                },
-                tabsStyle={
-                    'width': '50%',
-                    'height': '70px',
-                    'borderRadius': '3px',
-                    'backgroundColor': '#072146',
-                    'color': 'white',
-                    'borderLeftStyle': 'none',
-                    'borderRightStyle': 'none',
-                    'fontSize': '18px',
-                    'lineHeight': '21px',
-                    'justifyContent': 'center',
-                    'flexDirection': 'column'
-                }),
-            wikis_tab(wikis),
-            metrics_tab(metrics),
-            compare_button(),
-            selection_result_container()
-        ]
-    );
+    return (html.Div(id='side-bar',children = [
+                fold_button(),
+                html.Div(id='side-bar-content',
+                    children=[
+                    #~ html.Div(style={'backgroundColor': '#072146', 'height': '15px'}),
+                    gdc.Tabs(
+                        tabs=[
+                            {'value': 'wikis', 'label': 'WIKIS'},
+                            {'value': 'metrics', 'label': 'METRICS'}
+                        ],
+                        value='wikis',
+                        id='side-bar-tabs',
+                        vertical=False,
+                        selectedTabStyle={
+                            'backgroundColor': '#004481',
+                        },
+                        style={
+                            'width': '100%',
+                            'textAlign': 'center',
+                            'border': 'none',
+                        },
+                        tabsStyle={
+                            'width': '50%',
+                            'height': '70px',
+                            'borderRadius': '3px',
+                            'backgroundColor': '#072146',
+                            'color': 'white',
+                            'borderLeftStyle': 'none',
+                            'borderRightStyle': 'none',
+                            'fontSize': '18px',
+                            'lineHeight': '21px',
+                            'justifyContent': 'center',
+                            'flexDirection': 'column'
+                        }),
+                    wikis_tab(wikis),
+                    metrics_tab(metrics),
+                    compare_button(),
+                    selection_result_container()
+                ])
+            ])
+        );
 
 
 category_names = ['PAGES', 'EDITIONS', 'USERS', 'RATIOS']

@@ -106,6 +106,7 @@ def generate_graphs(data, metrics, wikis, relative_time):
                                 y=metric_data.data,
                                 name=wikis[wiki_idx]['name']
                                 )
+            import pdb; pdb.set_trace()
 
     # The oldest wiki is the one with longer number of months
     oldest_wiki = max(data[0],key = lambda wiki: len(wiki))
@@ -117,6 +118,25 @@ def generate_graphs(data, metrics, wikis, relative_time):
         times_axis = oldest_wiki.index
 
     return graphs_list
+
+
+def select_time_axis_control():
+    return html.Div([
+            html.Div([
+                html.Strong('Time axis:'),
+                dcc.RadioItems(
+                    options=[
+                        {'label': 'Months from birth', 'value': 'relative'},
+                        {'label': 'Calendar dates', 'value': 'absolute'}
+                    ],
+                    value='relative',
+                    id='time-axis-selection'
+                )],
+                className="container"
+            ),
+        ],
+        style={'margin-bottom': '20px'}
+    )
 
 
 def generate_main_content(wikis_arg, metrics_arg, relative_time_arg):
@@ -230,6 +250,8 @@ def generate_main_content(wikis_arg, metrics_arg, relative_time_arg):
 
             html.Hr(),
 
+            select_time_axis_control(),
+
             html.Div(id='date-slider-div',
                     className='container',
                     children=[
@@ -260,9 +282,14 @@ def bind_callbacks(app):
         Output('graphs', 'children'),
         [Input('wikis-selection-dropdown', 'value'),
         Input('metrics-selection-dropdown', 'value'),
+        Input('time-axis-selection', 'value'),
         Input('dates-slider', 'value')])
-    def update_graphs(selected_wikis, selected_metrics, selected_timerange):
+    def update_graphs(selected_wikis,
+                      selected_metrics,
+                      selected_time_axis,
+                      selected_timerange):
         global relative_time;
+        relative_time = selected_time_axis;
 
         for wiki_idx in range(len(wikis)):
             if wiki_idx in selected_wikis:
@@ -300,6 +327,9 @@ def bind_callbacks(app):
                 )
 
         return dash_graphs # update_graphs
+
+
+    #~ @app.callback()
 
     return # bind_callbacks
 

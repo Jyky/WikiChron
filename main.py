@@ -38,6 +38,7 @@ wikis = []
 metrics = []
 
 graphs = []
+graphs_indexes = []
 
 global min_time, max_time, oldest_wiki; # global variables to store the max and min values for the time axis.
 
@@ -290,7 +291,7 @@ def bind_callbacks(app):
         global relative_time, oldest_wiki, graphs;
         relative_time = selected_time_axis == 'relative';
         print(relative_time)
-        import pdb; pdb.set_trace()
+
 
         for wiki_idx in range(len(wikis)):
             if wiki_idx in selected_wikis:
@@ -316,6 +317,17 @@ def bind_callbacks(app):
             selected_timerange[1] = times_axis[selected_timerange[1]]
 
         for i, metric in enumerate(metrics):
+
+            #~ if has_changes(selected_time_axis):
+            if True:
+                for j, wiki in enumerate(wikis):
+                    metric_data = data[j][j]
+                    if relative_time:
+                        x_axis = len(metric_data.index) # relative to the age of the wiki in months
+                    else:
+                        x_axis = metric_data.index # natural months
+                    graphs[i][j].x = x_axis
+
             if (i in selected_metrics):
                 dash_graphs.append(
                     dcc.Graph(

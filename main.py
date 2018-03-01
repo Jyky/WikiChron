@@ -39,7 +39,7 @@ metrics = []
 
 graphs = []
 
-global min_time, max_time; # global variables to store the max and min values for the time axis.
+global min_time, max_time, oldest_wiki; # global variables to store the max and min values for the time axis.
 
 global relative_time; # flag to know when we're plotting in relative dates
 global times_axis; # datetime index of the oldest wiki from the selected subset of wikis.
@@ -88,7 +88,7 @@ def load_data(dataframes, metrics):
 def generate_graphs(data, metrics, wikis, relative_time):
     """ Turn over data[] into plotly graphs objects and store it in graphs[] """
 
-    global min_time, max_time, times_axis;
+    global min_time, max_time, times_axis, oldest_wiki;
 
     graphs_list = [[None for j in range(len(wikis))] for i in range(len(metrics))]
 
@@ -106,7 +106,6 @@ def generate_graphs(data, metrics, wikis, relative_time):
                                 y=metric_data.data,
                                 name=wikis[wiki_idx]['name']
                                 )
-            import pdb; pdb.set_trace()
 
     # The oldest wiki is the one with longer number of months
     oldest_wiki = max(data[0],key = lambda wiki: len(wiki))
@@ -140,7 +139,7 @@ def select_time_axis_control():
 
 
 def generate_main_content(wikis_arg, metrics_arg, relative_time_arg):
-    global wikis_df, data, graphs, wikis, metrics, min_time, max_time, relative_time;
+    global wikis_df, data, graphs, wikis, metrics, min_time, max_time, times_axis, relative_time;
     wikis = wikis_arg;
     metrics = metrics_arg;
     relative_time = relative_time_arg;
@@ -288,8 +287,10 @@ def bind_callbacks(app):
                       selected_metrics,
                       selected_time_axis,
                       selected_timerange):
-        global relative_time;
-        relative_time = selected_time_axis;
+        global relative_time, oldest_wiki, graphs;
+        relative_time = selected_time_axis == 'relative';
+        print(relative_time)
+        import pdb; pdb.set_trace()
 
         for wiki_idx in range(len(wikis)):
             if wiki_idx in selected_wikis:
@@ -300,6 +301,14 @@ def bind_callbacks(app):
                     graphs[metric_idx][wiki_idx]['visible'] = "legendonly"
 
         dash_graphs = []
+
+        min_time = 0
+        max_time = len (oldest_wiki)
+
+        if relative_time:
+            times_axis = list(range(min_time, max_time))
+        else:
+            times_axis = oldest_wiki.index
 
         # if we're displaying calendar dates, then we do the conversion:
         if not relative_time:

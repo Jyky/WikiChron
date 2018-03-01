@@ -144,7 +144,7 @@ def select_time_axis_control():
                     {'label': 'Calendar dates', 'value': 'absolute'}
                 ],
                 value='relative',
-                id='time-axis-selection'
+                id='time-axis-selection-old'
             ),
             ],
             className="container"
@@ -308,7 +308,7 @@ def bind_callbacks(app):
     # Note that we need one State parameter for each category metric that is created dynamically
     @app.callback(Output('sidebar-selection', 'children'),
                [Input('compare-button', 'n_clicks')],
-                [State('time-axis-selection', 'value')] +
+                [State('time-axis-selection-old', 'value')] +
                 [State(generate_wikis_accordion_id(name), 'values') for name in wikis_categories_order] +
                 [State(generate_metrics_accordion_id(name), 'values') for name in category_names]
                )
